@@ -11,7 +11,6 @@ services:
     ports:
       - "${DOCKER_IP}:${DOCKER_PORT_DB}:${DB_PORT}"
     volumes:
-      - ./mysql/init:/docker-entrypoint-initdb.d
       - ./mysql_data:/var/lib/mysql
 
   aberit_php:
