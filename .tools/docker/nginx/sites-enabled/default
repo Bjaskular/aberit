@@ -1,0 +1,47 @@
+server {
+    listen       80;
+    server_name  127.0.0.1;
+
+    charset utf-8;
+
+    root   /var/www/public;
+    index  index.php;
+
+    rewrite ^/(.*)/$ /$1 permanent;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt { access_log off; log_not_found off; }
+
+    #access_log off;
+    access_log /home/www/var/log/nginx.log;
+    error_log  /home/www/var/log/nginx-error.log error;
+
+    location ~ \.php$ {
+        try_files $uri /index.php =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass aberit_php:9000;
+        fastcgi_index index.php;
+
+        #https://github.com/zendtech/ZendOptimizerPlus/issues/126
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        include fastcgi_params;
+        fastcgi_intercept_errors off;
+        fastcgi_buffer_size 32k;
+        fastcgi_buffers 16 16k;
+        internal;
+
+    }
+
+    location ~ (/\.|web\.config) {
+        deny all;
+
+        access_log off;
+        log_not_found off;
+    }
+}
