@@ -21,5 +21,7 @@ class AberitServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(Services\Interfaces\IUserService::class, Services\UserService::class);
+        $this->app->bind(Services\Interfaces\IPostService::class, Services\PostService::class);
+        $this->app->bind(Services\Interfaces\ICommentService::class, Services\CommentService::class);
     }
 }

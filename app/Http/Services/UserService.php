@@ -13,7 +13,7 @@ class UserService implements IUserService
 
     public function getAll(): Collection
     {
-        return $this->user->query()->all();
+        return $this->user->query()->get();
     }
 
     public function getPaginate(): LengthAwarePaginator
